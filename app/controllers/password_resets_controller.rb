@@ -52,12 +52,14 @@ class PasswordResetsController < ApplicationController
     elsif params[:user][:password] != params[:user][:password_confirmation]
       # Password does not match password confirmation
       flash.now[:alert] = I18n.t("password_different_notice")
-    elsif @user.update_attributes(user_params)
-      # Clear the user's social uid if they are switching from a social to a local account
-      @user.update_attribute(:social_uid, nil) if @user.social_uid.present?
+    elsif @user.without_terms_acceptance { @user.update_attributes(user_params) }
+      @user.without_terms_acceptance {
+        # Clear the user's social uid if they are switching from a social to a local account
+        @user.update_attribute(:social_uid, nil) if @user.social_uid.present?
 
-      # Mark password as secure
-      @user.update(secure_password: true)
+        # Mark password as secure
+        @user.update(secure_password: true)
+      }
       # Successfully reset password
       return redirect_to root_path, flash: { success: I18n.t("password_reset_success") }
     end

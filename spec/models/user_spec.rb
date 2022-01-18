@@ -36,7 +36,13 @@ describe User, type: :model do
     it { should allow_value("valid@email.com").for(:email) }
     it { should_not allow_value("invalid_email").for(:email) }
     it { should allow_value(true).for(:accepted_terms) }
-    it { should allow_value(false).for(:accepted_terms) }
+    it {
+      expect(@user.greenlight_account?).to be
+      allow(Rails.configuration).to receive(:terms).and_return("something")
+      should_not allow_value(false).for(:accepted_terms)
+      allow(Rails.configuration).to receive(:terms).and_return(false)
+      should allow_value(false).for(:accepted_terms)
+    }
 
     it { should allow_value("valid.jpg").for(:image) }
     it { should allow_value("valid.png").for(:image) }
@@ -266,6 +272,17 @@ describe User, type: :model do
 
       expect(@user.locked_out?).to be false
       expect(@user.reload.failed_attempts).to eq(0)
+    end
+  end
+  context "#without_terms_acceptance" do
+    before {
+      @user.update accepted_terms: false
+      allow(Rails.configuration).to receive(:terms).and_return("something")
+    }
+    it "runs blocks with terms acceptance validation disabled" do
+      expect(@user.accepted_terms).not_to be
+      expect(@user.valid?).not_to be
+      @user.without_terms_acceptance { expect(@user.valid?).to be }
     end
   end
 end
