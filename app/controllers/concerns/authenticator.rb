@@ -25,6 +25,8 @@ module Authenticator
 
     session[:user_id] = user.id
     user.update(last_login: Time.zone.now)
+    # This is a pessimistic appraoch you can omitt it if the idle_timeout isn't too short.
+    session[:latest_interaction] = Time.now.to_i
 
     logger.info("Support: #{user.email} has successfully logged in.")
 

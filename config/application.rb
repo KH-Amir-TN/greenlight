@@ -186,5 +186,8 @@ module Greenlight
 
     # Max avatar image size
     config.max_avatar_size = ENV['MAX_AVATAR_SIZE'].to_i.zero? ? 100_000 : ENV['MAX_AVATAR_SIZE'].to_i
+
+    # Session idle timeout (in seconds.).
+    config.session_idle_timeout = ENV['SESSION_TIMEOUT'].to_i.zero? ? 10.minutes.to_i : ENV['SESSION_TIMEOUT'].to_i
   end
 end

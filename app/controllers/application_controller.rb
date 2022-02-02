@@ -35,6 +35,14 @@ class ApplicationController < ActionController::Base
         session.clear
       end
 
+    session[:latest_interaction] ||= Time.now.to_i # This will concerve already active sessions for a seamless upgrade.
+    # This will logout any logged user with an idle session.
+    if @current_user && Time.now.to_i >= session[:latest_interaction] + Rails.configuration.session_idle_timeout
+      reset_session
+      redirect_to root_path, flash: { alert: I18n.t("session.idle_timeout") } and return
+    end
+    session[:latest_interaction] = Time.now.to_i # This updates the latest_interaction metadata on each request.
+
     @current_user
   end
   helper_method :current_user
