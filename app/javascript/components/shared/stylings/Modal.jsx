@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
-import { Button, Modal as BootstrapModal } from 'react-bootstrap';
+import { Modal as BootstrapModal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function Modal({
-  buttonName, variant, title, body, children,
+  openElement, title, children, footer
 }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const clonedChildren = React.Children.map(children, (child) => React.cloneElement(child, { handleClose }));
+  const Footer = React.cloneElement(footer, { handleClose });
+  const OpenElement = React.cloneElement(openElement, { onClick: handleShow });
 
   return (
     <>
-      <Button variant={variant} onClick={handleShow}>
-        { buttonName }
-      </Button>
-
+      {OpenElement}
       <BootstrapModal className="text-center" show={show} onHide={handleClose}>
         <BootstrapModal.Header className="border-0" closeButton />
         <BootstrapModal.Title>{title}</BootstrapModal.Title>
-        <BootstrapModal.Body>{body}</BootstrapModal.Body>
+        <BootstrapModal.Body>{children}</BootstrapModal.Body>
         <BootstrapModal.Footer>
-          { clonedChildren }
+          {Footer}
         </BootstrapModal.Footer>
       </BootstrapModal>
     </>
@@ -31,9 +29,8 @@ export default function Modal({
 }
 
 Modal.propTypes = {
-  buttonName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  variant: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  footer: PropTypes.element.isRequired,
+  openElement: PropTypes.element.isRequired,
+  children: PropTypes.node,
 };
