@@ -7,8 +7,8 @@ describe BigBlueButtonApi, type: :service do
   let(:bbb_service) { described_class.new }
   let(:default_create_opts) do
     {
-      moderatorPW: 'mp',
-      attendeePW: 'ap'
+      'moderatorPW' => 'mp',
+      'attendeePW' => 'ap'
     }
   end
 
@@ -51,6 +51,18 @@ describe BigBlueButtonApi, type: :service do
       allow(bbb_server).to receive(:join_meeting_url).and_return(true)
     end
 
+    it 'merges the default_create_opts with the room_meeting_options and the explicity options hash' do
+      explicit_options = { 'extra' => 'extra' }
+      bbb_option_names_values = [%w[guestPolicy guestPolicy], %w[attendeePW attendeePW], %w[moderatorPW moderatorPW]]
+      room_meeting_options_hash = bbb_option_names_values.to_h
+      allow(room.room_meeting_options).to receive(:bbb_option_names_values).and_return(bbb_option_names_values)
+      expect(bbb_server).to receive(:create_meeting).with(room.name, room.friendly_id,
+                                                          default_create_opts.merge(room_meeting_options_hash).merge(explicit_options))
+      expect(bbb_server).to receive(:join_meeting_url).with(room.friendly_id, 'Someone', room_meeting_options_hash['attendeePW'],
+                                                            default_join_opts)
+      bbb_service.start_meeting room:, meeting_starter: nil, options: explicit_options
+    end
+
     it 'calls bbb_api#create_meeting' do
       expect(bbb_server).to receive(:create_meeting).with(room.name, room.friendly_id, default_create_opts)
       bbb_service.start_meeting room:, meeting_starter: nil, options: {}
@@ -58,13 +70,13 @@ describe BigBlueButtonApi, type: :service do
 
     describe 'calls bbb_api#join_meeting_url' do
       it 'With Moderator password and the meeting starter name for authenticated requests' do
-        expect(bbb_server).to receive(:join_meeting_url).with(room.friendly_id, meeting_starter.name, default_create_opts[:moderatorPW],
+        expect(bbb_server).to receive(:join_meeting_url).with(room.friendly_id, meeting_starter.name, default_create_opts['moderatorPW'],
                                                               default_join_opts)
         bbb_service.start_meeting room:, meeting_starter:, options: {}
       end
 
       it 'With attendee password and user name as "Someone" for unauthenticated requests' do
-        expect(bbb_server).to receive(:join_meeting_url).with(room.friendly_id, 'Someone', default_create_opts[:attendeePW], default_join_opts)
+        expect(bbb_server).to receive(:join_meeting_url).with(room.friendly_id, 'Someone', default_create_opts['attendeePW'], default_join_opts)
         bbb_service.start_meeting room:, meeting_starter: nil, options: {}
       end
     end
