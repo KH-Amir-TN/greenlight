@@ -10,15 +10,10 @@ export default function useCreateAvatar(currentUser) {
     axios.patch(`/api/v1/users/${currentUser.id}.json`, formData);
   };
 
-  const delay = (time) => new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-
   const mutation = useMutation(
     createAvatar,
     {
       onSuccess: async () => {
-        await delay(100);
         queryClient.invalidateQueries('useSessions');
       },
       onError: (error) => {
