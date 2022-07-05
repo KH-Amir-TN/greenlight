@@ -1,6 +1,7 @@
 // Entry point for the build script in your package.json
 import '@hotwired/turbo-rails';
 import React from 'react';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { render } from 'react-dom';
 import {
   BrowserRouter as Router, Routes, Route, Navigate,
@@ -30,6 +31,7 @@ const queryClient = new QueryClient();
 
 const root = (
   <QueryClientProvider client={queryClient}>
+    <ReactQueryDevtools initialIsOpen={false} />
     <AuthProvider>
       <Router>
         <Routes>

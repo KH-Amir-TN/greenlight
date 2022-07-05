@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import {
-  Row, Col, Button, Stack,
+  Row, Col, Stack,
 } from 'react-bootstrap';
 import Spinner from '../shared/stylings/Spinner';
 import RoomCard from './RoomCard';
 import useRooms from '../../hooks/queries/rooms/useRooms';
 import RoomPlaceHolder from './RoomPlaceHolder';
-import CreateRoomModal from '../shared/Modal';
-import CreateRoomForm from '../forms/CreateRoomForm';
 import SearchBar from '../shared/SearchBar';
 import { useAuth } from '../../contexts/auth/AuthProvider';
+import CreateRoomModal from '../shared/modals/CreateRoomModal';
 
 export default function RoomsList() {
   const { id: userID } = useAuth();
-  const { isLoading, data: rooms } = useRooms();
+  const { isLoading, data: rooms } = useRooms(userID);
   const [search, setSearch] = useState('');
   if (isLoading) return <Spinner />;
 
@@ -23,11 +22,7 @@ export default function RoomsList() {
         <div>
           <SearchBar id="rooms-search" setSearch={setSearch} />
         </div>
-        <CreateRoomModal
-          modalButton={<Button variant="primary" className="ms-auto">+ New Room </Button>}
-          title="Create New Room"
-          body={<CreateRoomForm userID={userID} />}
-        />
+        <CreateRoomModal userID={userID} />
       </Stack>
       <Row md={4} className="g-4 pb-4 mt-4">
         {

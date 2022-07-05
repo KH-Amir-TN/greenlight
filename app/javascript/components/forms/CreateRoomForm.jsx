@@ -14,7 +14,7 @@ export default function CreateRoomForm({ handleClose, userID }) {
   createRoomFormConfig.defaultValues.user_id = userID;
 
   const methods = useForm(createRoomFormConfig);
-  const { handleCreateRoom: onSubmit } = useCreateRoom({ onSettled: handleClose });
+  const { handleCreateRoom: onSubmit } = useCreateRoom({ userID, onSettled: handleClose });
   const { isSubmitting } = methods.formState;
   const fields = createRoomFormFields;
 

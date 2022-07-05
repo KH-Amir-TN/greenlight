@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-hot-toast';
 import axios, { ENDPOINTS } from '../../../helpers/Axios';
 
-export default function useCreateRoom({ onSettled }) {
-  const ROOMSLISTQUERYKEY = 'getRooms'; // TODO: amir - create a central store for query keys.
+export default function useCreateRoom({ userID, onSettled }) {
+  const ROOMSLISTQUERYKEY = ['getRooms', userID]; // TODO: amir - create a central store for query keys.
   const queryClient = useQueryClient();
 
   // Calls the Backend rooms API #create action to create the room.
@@ -22,7 +22,7 @@ export default function useCreateRoom({ onSettled }) {
     // Snapshot the previous value
     const oldRooms = queryClient.getQueryData(ROOMSLISTQUERYKEY);
     // Optimistically update to the new value
-    queryClient.setQueryData(ROOMSLISTQUERYKEY, (old) => [...old, newRoom]);
+    queryClient.setQueryData(ROOMSLISTQUERYKEY, (old) => old?.concat([newRoom]));
 
     // Return a context object with the snapshotted value
     return { oldRooms };

@@ -4,8 +4,11 @@ import {
   Stack, Navbar, NavDropdown, Container,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { DotsVerticalIcon } from '@heroicons/react/outline';
+import {
+  DotsVerticalIcon, HomeIcon, PencilAltIcon, TrashIcon,
+} from '@heroicons/react/outline';
 import Avatar from '../../users/Avatar';
+import CreateRoomModal from '../../shared/modals/CreateRoomModal';
 
 export default function ManageUserRow({ user }) {
   return (
@@ -29,9 +32,13 @@ export default function ManageUserRow({ user }) {
         <Navbar>
           <Container>
             <div className="d-inline-flex">
+              {
+                // Todo: Revisit this.
+              }
               <NavDropdown title={<DotsVerticalIcon className="hi-s text-muted" />} id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to={`/adminpanel/edit_user/${user.id}`}>Edit</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to={`/adminpanel/delete_user/${user.id}`}>Delete</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to={`/adminpanel/edit_user/${user.id}`}><PencilAltIcon className="hi-s" /> Edit</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to={`/adminpanel/delete_user/${user.id}`}><TrashIcon className="hi-s" /> Delete</NavDropdown.Item>
+                <CreateRoomModal userID={user.id} modalButton={<NavDropdown.Item><HomeIcon className="hi-s" /> Create Room</NavDropdown.Item>} />
               </NavDropdown>
             </div>
           </Container>
