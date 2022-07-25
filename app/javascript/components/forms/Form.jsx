@@ -6,11 +6,17 @@ import { Form as BootStrapForm } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function Form({
-  methods, children, onSubmit, ...props
+  methods, children, onSubmit, onChange, onBlur, ...props
 }) {
   return (
     <FormProvider {...methods}>
-      <BootStrapForm {...props} noValidate onSubmit={(e) => { e.stopPropagation(); methods.handleSubmit(onSubmit)(e); }}>
+      <BootStrapForm
+        {...props}
+        noValidate
+        onChange={onChange}
+        onBlur={onBlur}
+        onSubmit={(e) => { e.stopPropagation(); methods.handleSubmit(onSubmit)(e); }}
+      >
         {children}
       </BootStrapForm>
     </FormProvider>
