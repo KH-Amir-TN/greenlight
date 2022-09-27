@@ -10,6 +10,7 @@
   "save": "Save",
   "save_changes": "Save Changes",
   "update": "Update",
+  "report": "Report",
   "share": "Share",
   "cancel": "Cancel",
   "close": "Close",
@@ -306,6 +307,15 @@
       "must_be_signed_in_to_join_room": "You must be signed in to join this room.",
       "file_type_not_supported": "File type is not supported.",
       "file_size_too_large": "File size is too large."
+    }
+  },
+  "global_error_page": {
+    "title": "Something Went Wrong",
+    "message": "Looks like something went wrong on our end.\nGreenlight 3 is still in Alpha.\nWe are constantly working on upgrading it.\nHowever, it's a work in progress and we'd like to take in your note on this error.\nPlease click on \"Report\" and provide in the logs listed when clicking on \"show trace\".\nAlong with a scenario to reproduce the error.\n",
+    "trace": {
+      "title": "Component Stack Trace",
+      "show_btn_lbl": "Show trace",
+      "hide_btn_lbl": "hide trace"
     }
   }
 }
