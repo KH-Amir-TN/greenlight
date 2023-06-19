@@ -16,16 +16,18 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { VideoCameraIcon } from '@heroicons/react/24/outline';
 import { Card, Stack, Table } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import SortBy from '../shared_components/search/SortBy';
-import NoSearchResults from '../shared_components/search/NoSearchResults';
-import Pagination from '../shared_components/Pagination';
-import SearchBar from '../shared_components/search/SearchBar';
-import usePublicRecordings from '../../hooks/queries/recordings/usePublicRecordings';
+import SortBy from '../../../shared_components/search/SortBy';
+import NoSearchResults from '../../../shared_components/search/NoSearchResults';
+import Pagination from '../../../shared_components/Pagination';
+import SearchBar from '../../../shared_components/search/SearchBar';
+import usePublicRecordings from '../../../../hooks/queries/recordings/usePublicRecordings';
 import PublicRecordingRow from './PublicRecordingRow';
-import EmptyRecordingsList from './EmptyRecordingsList';
-import PublicRecordingsListRowPlaceHolder from './PublicRecordingsListRowPlaceHolder';
+import PublicRecordingsRowPlaceHolder from './PublicRecordingsRowPlaceHolder';
+import ButtonLink from '../../../shared_components/utilities/ButtonLink';
+import UserBoardIcon from '../../UserBoardIcon';
 
 export default function PublicRecordingsList({ friendlyId }) {
   const { t } = useTranslation();
@@ -34,7 +36,17 @@ export default function PublicRecordingsList({ friendlyId }) {
   const { data: recordings, ...publicRecordingsAPI } = usePublicRecordings({ friendlyId, page, search: searchInput });
 
   if (!publicRecordingsAPI.isLoading && recordings?.data?.length === 0 && !searchInput) {
-    return <EmptyRecordingsList />;
+    return (
+      <div className="text-center my-4">
+        <div className="icon-circle rounded-circle d-block mx-auto mb-3">
+          <VideoCameraIcon className="hi-l pt-4 text-brand d-block mx-auto" />
+        </div>
+        <h2 className="text-brand"> {t('recording.public_recordings_list_empty')}</h2>
+        <p>
+          {t('recording.public_recordings_list_empty_description')}
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -43,6 +55,13 @@ export default function PublicRecordingsList({ friendlyId }) {
         <div>
           <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
         </div>
+        <ButtonLink
+          variant="brand-outline"
+          className="ms-auto my-0 py-2"
+          to={`/rooms/${friendlyId}/join`}
+        >
+          <span> <UserBoardIcon className="hi-s text-brand cursor-pointer" /> {t('join_session')} </span>
+        </ButtonLink>
       </Stack>
       {
         (searchInput && recordings?.data.length === 0)
@@ -62,9 +81,9 @@ export default function PublicRecordingsList({ friendlyId }) {
                 </thead>
                 <tbody className="border-top-0">
                   {
-                    (publicRecordingsAPI.isLoading && [...Array(4)].map((val, idx) => (
+                    (publicRecordingsAPI.isLoading && [...Array(7)].map((val, idx) => (
                       // eslint-disable-next-line react/no-array-index-key
-                      <PublicRecordingsListRowPlaceHolder key={idx} />
+                      <PublicRecordingsRowPlaceHolder key={idx} />
                     )))
                   }
                   {

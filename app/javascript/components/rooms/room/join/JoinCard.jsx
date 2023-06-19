@@ -25,6 +25,7 @@ import {
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { VideoCameraIcon } from '@heroicons/react/24/outline';
 import usePublicRoom from '../../../../hooks/queries/rooms/usePublicRoom';
 import { useAuth } from '../../../../contexts/auth/AuthProvider';
 import useRoomStatus from '../../../../hooks/mutations/rooms/useRoomStatus';
@@ -39,6 +40,7 @@ import FormControl from '../../../shared_components/forms/FormControl';
 import FormControlGeneric from '../../../shared_components/forms/FormControlGeneric';
 import RoomJoinPlaceholder from './RoomJoinPlaceholder';
 import useRoomJoinForm from '../../../../hooks/forms/rooms/useRoomJoinForm';
+import ButtonLink from '../../../shared_components/utilities/ButtonLink';
 
 export default function JoinCard() {
   const { t } = useTranslation();
@@ -188,7 +190,7 @@ export default function JoinCard() {
   );
 
   return (
-    <>
+    <Card className="col-md-6 mx-auto p-0 border-0 card-shadow">
       <Card.Body className="pt-4 px-5">
         <Row>
           <Col className="col-xxl-8">
@@ -196,6 +198,13 @@ export default function JoinCard() {
             <h1 className="mt-2">
               {publicRoom?.data.name}
             </h1>
+            <ButtonLink
+              variant="brand-outline"
+              className="mt-3 mb-0 cursor-pointer"
+              to={`/rooms/${friendlyId}/public_recordings`}
+            >
+              <span> <VideoCameraIcon className="hi-s text-brand" /> {t('view_recordings')} </span>
+            </ButtonLink>
           </Col>
           <Col>
             <Stack direction="vertical" gap={3}>
@@ -251,6 +260,6 @@ export default function JoinCard() {
           )}
         </Row>
       </Card.Footer>
-    </>
+    </Card>
   );
 }

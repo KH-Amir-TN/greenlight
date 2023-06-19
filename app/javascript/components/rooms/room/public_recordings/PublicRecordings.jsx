@@ -16,16 +16,19 @@
 
 /* eslint-disable consistent-return */
 import React from 'react';
-import Card from 'react-bootstrap/Card';
-import { useParams } from 'react-router-dom';
-import PublicRecordingsList from '../../../recordings/PublicRecordingsList';
+import { Row } from 'react-bootstrap';
+import Logo from '../../../shared_components/Logo';
+import PublicRecordingsCard from './PublicRecordingsCard';
 
-export default function PublicRecordingsCard() {
-  const { friendlyId } = useParams();
-
+export default function RoomJoin() {
   return (
-    <Card.Body className="pt-4 px-5">
-      <PublicRecordingsList friendlyId={friendlyId} />
-    </Card.Body>
+    <div className="vertical-center">
+      <Row className="text-center pb-4">
+        <Logo />
+      </Row>
+      <Row>
+        <PublicRecordingsCard />
+      </Row>
+    </div>
   );
 }

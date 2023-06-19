@@ -16,10 +16,10 @@
 
 import React from 'react';
 import { Stack } from 'react-bootstrap';
-import Placeholder from '../shared_components/utilities/Placeholder';
-import RoundPlaceholder from '../shared_components/utilities/RoundPlaceholder';
+import Placeholder from '../../../shared_components/utilities/Placeholder';
+import RoundPlaceholder from '../../../shared_components/utilities/RoundPlaceholder';
 
-export default function PublicRecordingsListRowPlaceHolder() {
+export default function PublicRecordingsRowPlaceHolder() {
   return (
     <tr>
       {/* Avatar and Name */}

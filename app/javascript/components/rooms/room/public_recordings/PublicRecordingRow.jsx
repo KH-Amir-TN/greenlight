@@ -23,10 +23,10 @@ import {
   Button, Stack,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../contexts/auth/AuthProvider';
-import { localizeDateTimeString } from '../../helpers/DateTimeHelper';
-import useRedirectRecordingUrl from '../../hooks/mutations/recordings/useRedirectRecordingUrl';
-import useCopyRecordingUrl from '../../hooks/mutations/recordings/useCopyRecordingUrl';
+import { useAuth } from '../../../../contexts/auth/AuthProvider';
+import { localizeDateTimeString } from '../../../../helpers/DateTimeHelper';
+import useRedirectRecordingUrl from '../../../../hooks/mutations/recordings/useRedirectRecordingUrl';
+import useCopyRecordingUrl from '../../../../hooks/mutations/recordings/useCopyRecordingUrl';
 
 // TODO: Amir - Refactor this.
 export default function PublicRecordingRow({

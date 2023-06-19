@@ -28,7 +28,7 @@ export default function RoomJoinPlaceholder() {
   const { t } = useTranslation();
 
   return (
-    <>
+    <Card className="col-md-6 mx-auto p-0 border-0 card-shadow">
       <Card.Body className="pt-4 px-5">
         <Row>
           <Col className="col-xxl-8">
@@ -60,6 +60,6 @@ export default function RoomJoinPlaceholder() {
           <Placeholder width={6} size="md" />
         </Row>
       </Card.Footer>
-    </>
+    </Card>
   );
 }
