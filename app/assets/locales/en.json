@@ -171,6 +171,8 @@
     "published": "Published",
     "unpublished": "Unpublished",
     "protected": "Protected",
+    "public": "Public",
+    "public_protected": "Public/Protected",
     "length_in_minutes": "{{recording.length}} min.",
     "processing_recording": "Processing recording, this may take several minutes...",
     "copy_recording_urls": "Copy Recording Url(s)",
